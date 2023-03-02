@@ -8,8 +8,7 @@ from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup, KeyboardBu
 from message_text import translator
 import os
 
-BOT_TOKEN = os.environ["BOT_TOKEN"]
-
+BOT_TOKEN = os.environ['BOT_TOKEN']
 bot = telebot.TeleBot(BOT_TOKEN)
 redis_connector = redis.Redis()
 
@@ -32,8 +31,19 @@ def start(message):
 
 @bot.message_handler(func=lambda message: message.text == 'Login')
 def reg_start(message):
-    redis_connector.set({f'user_status_{message.from_user.id}': 'name_wait'})
-    bot.reply_to(message, translator['enter_name']['en'], reply_markup=None)
+    redis_connector.set(f'user_status_{message.from_user.id}', 'wait_for_username')
+    bot.reply_to(message, translator['enter_username']['en'])
 
+
+@bot.message_handler(func=lambda message: redis_connector.get(f'user_status_{message.from_user.id}')==b'wait_for_username')
+def enter_username(message):
+    username = message.text
+    if len(username) > 16 or username.isspace():
+        bot.reply_to(message, translator['username_error']['en'])
+        return
+    redis_connector.set(f'user_status_{message.from_user.id}', 'wait_for_password')
+    redis_connector.hset(f'registration_{message.from_user.id}', 'username', username)
+    bot.reply_to(message, translator['reaction_for_username']['en'].format(username))
+    bot.send_message(message.chat.id, translator['enter_password']['en'].format(username))
 
 bot.infinity_polling()
