@@ -9,8 +9,7 @@ from message_text import translator
 import os
 import hashlib
 
-# BOT_TOKEN = os.environ['BOT_TOKEN']
-BOT_TOKEN = '6267288591:AAFSGvU6d7BupOdNo59QcuJAg5dTMqZonek'
+BOT_TOKEN = os.environ['BOT_TOKEN']
 bot = telebot.TeleBot(BOT_TOKEN)
 redis_connector = redis.Redis()
 
