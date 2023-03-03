@@ -1,6 +1,13 @@
 translator = {
     'welcome_message': {
-        'en': 'Welcome to this notification bot. We are heppy to help you remember every task'
+        'en': 'Welcome to this notification bot. We are heppy to help you remember every task',
+        'uk': "Вітаємо у таск менеджері! Ми допоможемо вам запам'ятати кожне завдання"
+    },
+    'chose_language': {
+        'en': 'Please, chose your language'
+    },
+    'language_error': {
+        'en': 'Ooops, I don`t know this language, thy another'
     },
     'enter_username': {
         'en': 'Please, enter your username'
