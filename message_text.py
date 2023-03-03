@@ -3,6 +3,10 @@ translator = {
         'en': 'Welcome to this notification bot. We are heppy to help you remember every task',
         'uk': "Вітаємо у таск менеджері! Ми допоможемо вам запам'ятати кожне завдання"
     },
+    'welcome_for_register': {
+        'en': 'Hello! Chose tasks for manage your tasks, account for choose account data and quit for exit from account',
+        'uk': "Вітаємо!"
+    },
     'chose_language': {
         'en': 'Please, chose your language'
     },

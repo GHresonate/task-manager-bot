@@ -42,22 +42,29 @@ def get_chose_language_keyboard():
     return keyboard
 
 
+def get_main_keyboard():
+    quit_button = KeyboardButton('Quit')
+    account_button = KeyboardButton('Account')
+    tasks_button = KeyboardButton('Tasks')
+    keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)
+    keyboard.add(tasks_button)
+    keyboard.add(account_button)
+    keyboard.add(quit_button)
+    return keyboard
+
+
 @bot.message_handler(commands=['start'])
 def start(message):
     if not redis_connector.get(f'user_language_{message.from_user.id}') or redis_connector.get(
             f'user_language_{message.from_user.id}').decode() == 'choosing':
         redis_connector.set(f'user_language_{message.from_user.id}', 'choosing')
         bot.reply_to(message, translator['chose_language']['en'], reply_markup=get_chose_language_keyboard())
+    elif redis_connector.get(f'user_status_{message.from_user.id}') != 'logged':
+        get_main_menu(message)
     else:
+        redis_connector.delete(f'user_status_{message.from_user.id}')
         bot.reply_to(message, translator['welcome_message'][
             redis_connector.get(f'user_language_{message.from_user.id}').decode()], reply_markup=get_start_keyboard())
-
-
-@bot.message_handler(func=lambda message: message.text == 'Register')
-def reg_start(message):
-    redis_connector.set(f'user_status_{message.from_user.id}', 'wait_for_username')
-    bot.reply_to(message,
-                 translator['enter_username'][redis_connector.get(f'user_language_{message.from_user.id}').decode()])
 
 
 @bot.message_handler(
@@ -68,10 +75,18 @@ def chose_language(message):
     elif message.text == 'English':
         redis_connector.set(f'user_language_{message.from_user.id}', 'en')
     else:
-        bot.send_message(message.chat.id, translator['language_error']['en'], reply_markup=get_chose_language_keyboard())
+        bot.send_message(message.chat.id, translator['language_error']['en'],
+                         reply_markup=get_chose_language_keyboard())
         return
     bot.send_message(message.chat.id, translator['welcome_message'][
         redis_connector.get(f'user_language_{message.from_user.id}').decode()], reply_markup=get_start_keyboard())
+
+
+@bot.message_handler(func=lambda message: message.text == 'Register')
+def reg_start(message):
+    redis_connector.set(f'user_status_{message.from_user.id}', 'wait_for_username')
+    bot.reply_to(message,
+                 translator['enter_username'][redis_connector.get(f'user_language_{message.from_user.id}').decode()])
 
 
 @bot.message_handler(
@@ -107,24 +122,32 @@ def enter_password(message):
 
 @bot.message_handler(
     func=lambda message: redis_connector.get(f'user_status_{message.from_user.id}') == b'repeat_password')
-def enter_password(message):
+def repeat_password(message):
     password = message.text
     p_hash = redis_connector.hget(f'registration_{message.from_user.id}', 'password_hash')
     if p_hash == hashlib.sha256(password.encode()).hexdigest().encode():
-        ins = insert(Users).values(user_id=message.from_user.id,
-                                   username=redis_connector.hget(f'registration_{message.from_user.id}',
+        ins = insert(Users).values(username=redis_connector.hget(f'registration_{message.from_user.id}',
                                                                  'username').decode(),
                                    password_hash=redis_connector.hget(f'registration_{message.from_user.id}',
                                                                       'password_hash').decode())
         session.execute(ins)
         redis_connector.delete(f'registration_{message.from_user.id}')
         session.commit()
+        redis_connector.set(f'user_status_{message.from_user.id}', 'logged')
+        return get_main_menu(message)
     else:
         redis_connector.set(f'user_status_{message.from_user.id}', 'wait_for_password')
         bot.reply_to(message, translator['repeat_password_error'][
             redis_connector.get(f'user_language_{message.from_user.id}').decode()])
         bot.send_message(message.chat.id, translator['enter_password'][
             redis_connector.get(f'user_language_{message.from_user.id}').decode()])
+
+
+def get_main_menu(message):
+    keyboard = get_main_keyboard()
+    bot.send_message(message.chat.id, translator['welcome_for_register'][
+        redis_connector.get(f'user_language_{message.from_user.id}').decode()],
+                     reply_markup=keyboard)
 
 
 bot.infinity_polling()
