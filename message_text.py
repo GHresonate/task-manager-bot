@@ -7,6 +7,9 @@ translator = {
         'en': 'Hello! Chose tasks for manage your tasks, account for choose account data and quit for exit from account',
         'uk': "Вітаємо!"
     },
+    'already_logged_error': {
+        'en': 'You are already logged. You must sign out before do this',
+    },
     'chose_language': {
         'en': 'Please, chose your language'
     },

@@ -9,7 +9,8 @@ from message_text import translator
 import os
 import hashlib
 
-BOT_TOKEN = os.environ['BOT_TOKEN']
+#BOT_TOKEN = os.environ['BOT_TOKEN']
+BOT_TOKEN='6267288591:AAF8cCumBOApKZUqPK4Lwoe2stGNBH1U9Wc'
 bot = telebot.TeleBot(BOT_TOKEN)
 redis_connector = redis.Redis()
 
@@ -84,6 +85,10 @@ def chose_language(message):
 
 @bot.message_handler(func=lambda message: message.text == 'Register')
 def reg_start(message):
+    if redis_connector.get(f'user_status_{message.from_user.id}') == 'logged':
+        bot.reply_to(message, translator['already_logged_error'][
+                     redis_connector.get(f'user_language_{message.from_user.id}').decode()])
+        return
     redis_connector.set(f'user_status_{message.from_user.id}', 'wait_for_username')
     bot.reply_to(message,
                  translator['enter_username'][redis_connector.get(f'user_language_{message.from_user.id}').decode()])
