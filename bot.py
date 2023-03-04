@@ -1,7 +1,7 @@
 import telebot
 from handlers.main import Main
 from handlers.registration import Registration
-from util.filters import Filter
+from utilits.filters import Filter
 import os
 
 BOT_TOKEN = os.environ['BOT_TOKEN']

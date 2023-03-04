@@ -1,6 +1,8 @@
-from util.message_text import translator
-from util.keyboard_manager import KeyboardManager
-from util.redis_connector import RedisConnector
+from utilits.message_text import translator
+from utilits.keyboard_manager import KeyboardManager
+from utilits.redis_connector import RedisConnector
+
+
 class Main:
     def __init__(self):
         self.kb = KeyboardManager()
@@ -19,6 +21,5 @@ class Main:
                          reply_markup=self.kb.get_start_kb())
 
     def get_main_menu(self, message, bot):
-        bot.send_message(message.chat.id, translator['welcome_for_register'][
-            redis_connector.get(f'user_language_{message.from_user.id}').decode()],
+        bot.send_message(message.chat.id, translator['welcome_for_register'][self.redis.get_lang(message)],
                          reply_markup=self.kb.get_main_kb())

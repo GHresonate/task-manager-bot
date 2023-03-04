@@ -1,4 +1,4 @@
-from util.redis_connector import RedisConnector
+from utilits.redis_connector import RedisConnector
 
 
 class Filter:
