@@ -1,6 +1,7 @@
 from util.message_text import translator
 from util.keyboard_manager import KeyboardManager
 from util.redis_connector import RedisConnector
+from util.postgres_connector import PostgresConnector
 from hashlib import sha256
 
 
@@ -8,6 +9,7 @@ class Registration:
     def __init__(self):
         self.kb = KeyboardManager()
         self.redis = RedisConnector()
+        self.postgres = PostgresConnector()
 
     def chose_language(self, message, bot):
         if message.text == 'Українська':
@@ -52,11 +54,9 @@ class Registration:
         password = message.text
         p_hash = self.redis.get_reg_data(message, 'password_hash')
         if p_hash == sha256(password.encode()).hexdigest():
-            ins = insert(Users).values(username=self.redis.get_reg_data(message, 'username'),
-                                       password_hash=self.redis.get_reg_data(message, 'password_hash'))
-            session.execute(ins)
-            redis_connector.delete(f'registration_{message.from_user.id}')
-            session.commit()
+            self.postgres.insert_user(self.redis.get_reg_data(message, 'username'),
+                                      password_hash=self.redis.get_reg_data(message, 'password_hash'))
+            self.redis.del_reg_data(message)
             self.redis.set_status(message, 'logged')
             return get_main_menu(message)
         else:
