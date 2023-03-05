@@ -3,12 +3,14 @@ from handlers.main import Main
 from handlers.registration import Registration
 from utilits.filters import Filter
 import os
+
 BOT_TOKEN = os.environ['BOT_TOKEN']
 bot = telebot.TeleBot(BOT_TOKEN)
 
 register_bot = Registration()
 main_bot = Main()
 message_filter = Filter()
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
