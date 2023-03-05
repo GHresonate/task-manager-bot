@@ -14,7 +14,8 @@ class Main:
             bot.reply_to(message, translator['chose_language']['en'],
                          reply_markup=self.kb.get_lang_kb())
         elif self.redis.get_status(message) != 'logged':
-            self.get_main_menu(message, bot)
+            bot.send_message(message.chat.id, translator['welcome_message'][
+                self.redis.get_lang(message)], reply_markup=self.kb.get_start_kb())
         else:
             self.redis.del_status(message)
             bot.reply_to(message, translator['welcome_message'][self.redis.get_lang(message)])
