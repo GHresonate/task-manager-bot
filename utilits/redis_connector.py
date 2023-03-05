@@ -30,13 +30,13 @@ class RedisConnector:
         return self.redis_connector.delete(f'user_status_{message.from_user.id}')
 
     def set_reg_data(self, message, key, value):
-        self.redis_connector.hset(f'registration_{message.from_user.id}', key, value)
+        return self.redis_connector.hset(f'registration_{message.from_user.id}', key, value)
 
     def get_reg_data(self, message, key):
         try:
-            self.redis_connector.hget(f'registration_{message.from_user.id}', key).decode()
+            return self.redis_connector.hget(f'registration_{message.from_user.id}', key).decode()
         except AttributeError:
             return None
 
     def del_reg_data(self, message):
-        self.redis_connector.delete(f'registration_{message.from_user.id}')
+        return self.redis_connector.delete(f'registration_{message.from_user.id}')

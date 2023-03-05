@@ -3,7 +3,6 @@ from handlers.main import Main
 from handlers.registration import Registration
 from utilits.filters import Filter
 import os
-
 BOT_TOKEN = os.environ['BOT_TOKEN']
 bot = telebot.TeleBot(BOT_TOKEN)
 
@@ -39,7 +38,8 @@ def enter_password(message):
 
 @bot.message_handler(func=message_filter.repeat_password)
 def repeat_password(message):
-    register_bot.repeat_password(message, bot)
+    if register_bot.repeat_password(message, bot):
+        main_bot.get_main_menu(message, bot)
 
 
 bot.infinity_polling()

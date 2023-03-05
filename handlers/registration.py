@@ -46,8 +46,8 @@ class Registration:
         if len(password) < 5 or password.isspace() or len(password) > 20:
             bot.reply_to(message, translator['password_error'][self.redis.get_lang(message)])
             return
-        self.redis.set_status(message, 'repeat_password')
         self.redis.set_reg_data(message, 'password_hash', sha256(password.encode()).hexdigest())
+        self.redis.set_status(message, 'repeat_password')
         bot.send_message(message.chat.id, translator['repeat_password'][self.redis.get_lang(message)])
 
     def repeat_password(self, message, bot):
@@ -58,8 +58,9 @@ class Registration:
                                       password_hash=self.redis.get_reg_data(message, 'password_hash'))
             self.redis.del_reg_data(message)
             self.redis.set_status(message, 'logged')
-            return get_main_menu(message)
+            return True
         else:
             self.redis.set_status(message,  'wait_for_password')
             bot.reply_to(message, translator['repeat_password_error'][self.redis.get_lang(message)])
             bot.send_message(message.chat.id, translator['enter_password'][self.redis.get_lang(message)])
+            return False
