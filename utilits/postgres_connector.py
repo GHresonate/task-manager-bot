@@ -1,6 +1,6 @@
 import sqlalchemy
 from sqlalchemy.orm import declarative_base, Session
-from sqlalchemy import Table, insert
+from sqlalchemy import Table, insert, select
 
 
 class PostgresConnector:
@@ -18,3 +18,7 @@ class PostgresConnector:
         ins = insert(self.Users).values(username=username, password_hash=password_hash)
         self.session.execute(ins)
         self.session.commit()
+
+    def check_user(self, username):
+        stmt = select(self.Users.username).where(self.Users.username == username)
+        return bool(self.session.execute(stmt).one_or_none())

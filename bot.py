@@ -10,7 +10,6 @@ register_bot = Registration()
 main_bot = Main()
 message_filter = Filter()
 
-
 @bot.message_handler(commands=['start'])
 def start(message):
     main_bot.start(message, bot)

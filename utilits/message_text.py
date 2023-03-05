@@ -37,4 +37,10 @@ translator = {
     'reaction_for_username': {
         'en': 'Great! So, your username is {}'
     },
+    'username_already_used': {
+        'en': 'This username already used. Please chose another one'
+    },
+    'registration_error': {
+        'en': 'Some of your data incorrect. Please check them and restart registration'
+    },
 }

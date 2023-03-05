@@ -2,6 +2,7 @@ from utilits.message_text import translator
 from utilits.keyboard_manager import KeyboardManager
 from utilits.redis_connector import RedisConnector
 from utilits.postgres_connector import PostgresConnector
+from sqlalchemy.exc import IntegrityError
 from hashlib import sha256
 
 
@@ -36,6 +37,9 @@ class Registration:
         if len(username) > 16 or username.isspace():
             bot.reply_to(message, translator['username_error'][self.redis.get_lang(message)])
             return
+        if self.postgres.check_user(username):
+            bot.reply_to(message, translator['username_already_used'][self.redis.get_lang(message)])
+            return
         self.redis.set_status(message,  'wait_for_password')
         self.redis.set_reg_data(message, 'username', username)
         bot.reply_to(message, translator['reaction_for_username'][self.redis.get_lang(message)].format(username))
@@ -54,8 +58,12 @@ class Registration:
         password = message.text
         p_hash = self.redis.get_reg_data(message, 'password_hash')
         if p_hash == sha256(password.encode()).hexdigest():
-            self.postgres.insert_user(self.redis.get_reg_data(message, 'username'),
-                                      password_hash=self.redis.get_reg_data(message, 'password_hash'))
+            try:
+                self.postgres.insert_user(self.redis.get_reg_data(message, 'username'),
+                                          password_hash=self.redis.get_reg_data(message, 'password_hash'))
+            except IntegrityError:
+                bot.send_message(message.chat.id, translator['registration_error'][self.redis.get_lang(message)],
+                                 reply_markup=self.kb.get_start_kb())
             self.redis.del_reg_data(message)
             self.redis.set_status(message, 'logged')
             return True
