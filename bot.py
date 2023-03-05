@@ -4,7 +4,8 @@ from handlers.registration import Registration
 from utilits.filters import Filter
 import os
 
-BOT_TOKEN = os.environ['BOT_TOKEN']
+BOT_TOKEN = '6267288591:AAEd13vhE917OMKUk-Byy94JZ0Wn8QSJS_0'
+# BOT_TOKEN = os.environ['BOT_TOKEN']
 bot = telebot.TeleBot(BOT_TOKEN)
 
 register_bot = Registration()

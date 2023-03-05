@@ -47,6 +47,7 @@ class Registration:
 
     def enter_password(self, message, bot):
         password = message.text
+        bot.delete_message(message.chat.id, message.message_id)
         if len(password) < 5 or password.isspace() or len(password) > 20:
             bot.reply_to(message, translator['password_error'][self.redis.get_lang(message)])
             return
@@ -56,6 +57,7 @@ class Registration:
 
     def repeat_password(self, message, bot):
         password = message.text
+        bot.delete_message(message.chat.id, message.message_id)
         p_hash = self.redis.get_reg_data(message, 'password_hash')
         if p_hash == sha256(password.encode()).hexdigest():
             try:
