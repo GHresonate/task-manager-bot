@@ -27,7 +27,13 @@ class PostgresConnector:
         del_sql = delete(self.Users).where(self.Users.username == username)
         self.execute(del_sql)
 
-    def check_user(self, username):
+    def check_user_exist(self, username):
         sel = select(self.Users.username).where(self.Users.username == username)
+        result = self.execute(sel)
+        return bool(result.one_or_none())
+
+    def check_user_password(self, username, password_hash):
+        sel = select(self.Users.username).where(self.Users.username == username)\
+            .where(self.Users.password_hash == password_hash)
         result = self.execute(sel)
         return bool(result.one_or_none())

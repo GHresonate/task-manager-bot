@@ -43,4 +43,10 @@ translator = {
     'registration_error': {
         'en': 'Some of your data incorrect. Please check them and restart registration'
     },
+    'info': {
+        'en': 'This is task manager bot. bla bla bla'
+    },
+    'user_incorrect': {
+        'en': 'I don`t know this user. Check username and password, maybe login'
+    },
 }

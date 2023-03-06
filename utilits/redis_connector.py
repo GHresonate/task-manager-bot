@@ -40,3 +40,27 @@ class RedisConnector:
 
     def del_reg_data(self, message):
         return self.redis_connector.delete(f'registration_{message.from_user.id}')
+
+    def set_log(self, message, lang):
+        return self.redis_connector.set(f'log_status_{message.from_user.id}', lang)
+
+    def get_log(self, message):
+        try:
+            return self.redis_connector.get(f'log_status_{message.from_user.id}').decode()
+        except AttributeError:
+            return None
+
+    def del_log(self, message):
+        return self.redis_connector.delete(f'log_status_{message.from_user.id}')
+
+    def set_log_data(self, message, key):
+        return self.redis_connector.set(f'login_{message.from_user.id}', key)
+
+    def get_log_data(self, message):
+        try:
+            return self.redis_connector.get(f'login_{message.from_user.id}').decode()
+        except AttributeError:
+            return None
+
+    def del_log_data(self, message):
+        return self.redis_connector.delete(f'login_{message.from_user.id}')

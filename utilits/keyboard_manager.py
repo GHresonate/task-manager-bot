@@ -4,9 +4,9 @@ from telebot.types import KeyboardButton, ReplyKeyboardMarkup
 class KeyboardManager:
     @staticmethod
     def get_start_kb():
-        info_button = KeyboardButton('Info')
-        login_button = KeyboardButton('Login')
-        register_button = KeyboardButton('Register')
+        info_button = KeyboardButton('/Info')
+        login_button = KeyboardButton('/Login')
+        register_button = KeyboardButton('/Register')
         keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)
         keyboard.add(login_button)
         keyboard.add(register_button)

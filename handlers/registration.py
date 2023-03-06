@@ -37,7 +37,7 @@ class Registration:
         if len(username) > 16 or username.isspace():
             bot.reply_to(message, translator['username_error'][self.redis.get_lang(message)])
             return
-        if self.postgres.check_user(username):
+        if self.postgres.check_user_exist(username):
             bot.reply_to(message, translator['username_already_used'][self.redis.get_lang(message)])
             return
         self.redis.set_status(message,  'wait_for_password')
@@ -68,9 +68,7 @@ class Registration:
                                  reply_markup=self.kb.get_start_kb())
             self.redis.del_reg_data(message)
             self.redis.set_status(message, 'logged')
-            return True
         else:
             self.redis.set_status(message,  'wait_for_password')
             bot.reply_to(message, translator['repeat_password_error'][self.redis.get_lang(message)])
             bot.send_message(message.chat.id, translator['enter_password'][self.redis.get_lang(message)])
-            return False

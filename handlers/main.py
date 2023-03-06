@@ -24,3 +24,7 @@ class Main:
     def get_main_menu(self, message, bot):
         bot.send_message(message.chat.id, translator['welcome_for_register'][self.redis.get_lang(message)],
                          reply_markup=self.kb.get_main_kb())
+
+    def info(self, message, bot):
+        bot.send_message(message.chat.id, translator['info'][self.redis.get_lang(message)],
+                         reply_markup=self.kb.get_start_kb())
