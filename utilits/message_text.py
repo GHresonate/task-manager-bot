@@ -19,6 +19,9 @@ translator = {
     'enter_username': {
         'en': 'Please, enter your username'
     },
+    'enter_password_log': {
+        'en': 'Please, enter your password'
+    },
     'enter_password': {
         'en': 'Now, please, enter your password. It must be between 5 and 20 symbols'
     },

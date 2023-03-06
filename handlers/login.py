@@ -27,7 +27,7 @@ class Login:
             return
         self.redis.set_log(message, 'wait_for_password')
         self.redis.set_log_data(message, username)
-        bot.send_message(message.chat.id, translator['enter_password'][self.redis.get_lang(message)])
+        bot.send_message(message.chat.id, translator['enter_password_log'][self.redis.get_lang(message)])
 
     def get_password(self, message, bot):
         password = message.text
