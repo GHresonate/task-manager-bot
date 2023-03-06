@@ -27,8 +27,19 @@ class KeyboardManager:
         quit_button = KeyboardButton('Quit')
         account_button = KeyboardButton('Account')
         tasks_button = KeyboardButton('Tasks')
-        keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)
+        keyboard = ReplyKeyboardMarkup()
         keyboard.add(tasks_button)
         keyboard.add(account_button)
         keyboard.add(quit_button)
+        return keyboard
+
+    @staticmethod
+    def get_account_kb():
+        name_button = KeyboardButton('Change name')
+        password_button = KeyboardButton('Change password')
+        delete_button = KeyboardButton('Delete account')
+        keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)
+        keyboard.add(name_button)
+        keyboard.add(password_button)
+        keyboard.add(delete_button)
         return keyboard
