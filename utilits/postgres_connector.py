@@ -1,6 +1,6 @@
 import sqlalchemy
 from sqlalchemy.orm import declarative_base, Session
-from sqlalchemy import Table, insert, select, delete
+from sqlalchemy import Table, insert, select, delete, update
 
 
 class PostgresConnector:
@@ -33,7 +33,11 @@ class PostgresConnector:
         return bool(result.one_or_none())
 
     def check_user_password(self, username, password_hash):
-        sel = select(self.Users.username).where(self.Users.username == username)\
+        sel = select(self.Users.username).where(self.Users.username == username) \
             .where(self.Users.password_hash == password_hash)
         result = self.execute(sel)
         return bool(result.one_or_none())
+
+    def change_username(self, old_username, new_username):
+        change = update(self.Users).where(self.Users.username == old_username).values(username=new_username)
+        self.execute(change)

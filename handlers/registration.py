@@ -29,7 +29,7 @@ class Registration:
             bot.reply_to(message, translator['already_logged_error'][
                 self.redis.get_lang(message)])
             return
-        self.redis.set_status(message,  'wait_for_username')
+        self.redis.set_user_status(message, 'wait_for_username')
         bot.reply_to(message, translator['enter_username'][self.redis.get_lang(message)])
 
     def enter_username(self, message, bot):
@@ -40,7 +40,7 @@ class Registration:
         if self.postgres.check_user_exist(username):
             bot.reply_to(message, translator['username_already_used'][self.redis.get_lang(message)])
             return
-        self.redis.set_status(message,  'wait_for_password')
+        self.redis.set_user_status(message, 'wait_for_password')
         self.redis.set_reg_data(message, 'username', username)
         bot.reply_to(message, translator['reaction_for_username'][self.redis.get_lang(message)].format(username))
         bot.send_message(message.chat.id, translator['enter_password'][self.redis.get_lang(message)])
@@ -52,7 +52,7 @@ class Registration:
             bot.reply_to(message, translator['password_error'][self.redis.get_lang(message)])
             return
         self.redis.set_reg_data(message, 'password_hash', sha256(password.encode()).hexdigest())
-        self.redis.set_status(message, 'repeat_password')
+        self.redis.set_user_status(message, 'repeat_password')
         bot.send_message(message.chat.id, translator['repeat_password'][self.redis.get_lang(message)])
 
     def repeat_password(self, message, bot):
@@ -60,17 +60,18 @@ class Registration:
         bot.delete_message(message.chat.id, message.message_id)
         p_hash = self.redis.get_reg_data(message, 'password_hash')
         if p_hash == sha256(password.encode()).hexdigest():
+            username = self.redis.get_reg_data(message, 'username')
             try:
-                self.postgres.insert_user(self.redis.get_reg_data(message, 'username'),
+                self.postgres.insert_user(username,
                                           password_hash=self.redis.get_reg_data(message, 'password_hash'))
             except IntegrityError:
                 bot.send_message(message.chat.id, translator['registration_error'][self.redis.get_lang(message)],
                                  reply_markup=self.kb.get_start_kb())
             self.redis.del_reg_data(message)
-            self.redis.set_status(message, 'logged')
+            self.redis.set_user_status(message, 'logged', username)
             return True
         else:
-            self.redis.set_status(message,  'wait_for_password')
+            self.redis.set_user_status(message, 'wait_for_password')
             bot.reply_to(message, translator['repeat_password_error'][self.redis.get_lang(message)])
             bot.send_message(message.chat.id, translator['enter_password'][self.redis.get_lang(message)])
             return False

@@ -37,7 +37,7 @@ class Login:
         self.redis.del_log_data(message)
         if self.postgres.check_user_password(username, p_hash):
             self.redis.del_log_data(message)
-            self.redis.set_status(message, 'logged')
+            self.redis.set_user_status(message, 'logged', username)
             return 1
         else:
             self.redis.del_log_data(message)

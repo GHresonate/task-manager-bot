@@ -10,6 +10,9 @@ translator = {
     'already_logged_error': {
         'en': 'You are already logged. You must sign out before do this',
     },
+    'account_message': {
+        'en': 'You are already logged. You must sign out before do this',
+    },
     'chose_language': {
         'en': 'Please, chose your language'
     },
@@ -51,5 +54,8 @@ translator = {
     },
     'user_incorrect': {
         'en': 'I don`t know this user. Check username and password, maybe login'
+    },
+    'change_name': {
+        'en': 'Your current name is {}. Print new name, if you wanna change it, or chose another option on keyboard'
     },
 }
