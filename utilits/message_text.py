@@ -11,7 +11,7 @@ translator = {
         'en': 'You are already logged. You must sign out before do this',
     },
     'account_message': {
-        'en': 'You are already logged. You must sign out before do this',
+        'en': 'Hellwo this is your account page bla bla bla',
     },
     'chose_language': {
         'en': 'Please, chose your language'
@@ -51,6 +51,9 @@ translator = {
     },
     'info': {
         'en': 'This is task manager bot. bla bla bla'
+    },
+    'success_username_change': {
+        'en': 'Username successfully changed'
     },
     'user_incorrect': {
         'en': 'I don`t know this user. Check username and password, maybe login'

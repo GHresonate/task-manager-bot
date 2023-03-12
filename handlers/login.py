@@ -34,10 +34,10 @@ class Login:
         bot.delete_message(message.chat.id, message.message_id)
         p_hash = sha256(password.encode()).hexdigest()
         username = self.redis.get_log_data(message)
-        self.redis.del_log_data(message)
         if self.postgres.check_user_password(username, p_hash):
+            self.redis.del_log(message)
             self.redis.del_log_data(message)
-            self.redis.set_user_status(message, 'logged', username)
+            self.redis.set_username_status(message, 'logged', username)
             return 1
         else:
             self.redis.del_log_data(message)

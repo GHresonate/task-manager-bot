@@ -1,9 +1,11 @@
 import telebot
 from handlers.main import Main
 from handlers.registration import Registration
-from utilits.filters import Filter
 from handlers.login import Login
+from handlers.account import Account
+from utilits.filters import Filter
 import os
+
 
 BOT_TOKEN = os.environ['BOT_TOKEN']
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -12,6 +14,7 @@ register_bot = Registration()
 main_bot = Main()
 message_filter = Filter()
 log_bot = Login()
+account_bot = Account()
 
 
 @bot.message_handler(commands=['start'])
@@ -64,6 +67,21 @@ def log_username(message):
 def log_password(message):
     log_bot.get_password(message, bot)
     main_bot.start(message, bot)
+
+
+@bot.message_handler(commands=['Account'])
+def account(message):
+    account_bot.main_account(message, bot)
+
+
+@bot.message_handler(func=message_filter.change_username_start)
+def change_username_start(message):
+    account_bot.change_username_start(message, bot)
+
+
+@bot.message_handler(func=message_filter.change_username_result)
+def change_username_result(message):
+    account_bot.change_username_result(message, bot)
 
 
 bot.infinity_polling()
