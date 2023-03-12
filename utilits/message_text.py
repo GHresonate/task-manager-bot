@@ -58,6 +58,12 @@ translator = {
     'user_incorrect': {
         'en': 'I don`t know this user. Check username and password, maybe login'
     },
+    'change_password': {
+        'en': 'If you wanna to change password enter it, either chose another option on keyboard'
+    },
+    'change_error': {
+        'en': 'Something went wrong, please try again'
+    },
     'change_name': {
         'en': 'Your current name is {}. Print new name, if you wanna change it, or chose another option on keyboard'
     },

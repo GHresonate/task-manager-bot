@@ -88,3 +88,15 @@ class RedisConnector:
 
     def del_acc_actions(self, message):
         self._redis_connector.delete(f'account_{message.from_user.id}')
+
+    def set_change_pass(self, message, password_hash):
+        self._redis_connector.set(f'password_change_{message.from_user.id}', password_hash)
+
+    def get_change_pass(self, message):
+        try:
+            return self._redis_connector.get(f'password_change_{message.from_user.id}').decode()
+        except AttributeError:
+            return None
+
+    def del_change_pass(self, message):
+        self._redis_connector.delete(f'password_change_{message.from_user.id}')

@@ -41,3 +41,7 @@ class PostgresConnector:
     def change_username(self, old_username, new_username):
         change = update(self._Users).where(self._Users.username == old_username).values(username=new_username)
         self.execute(change)
+
+    def change_password(self, username, password_hash):
+        change = update(self._Users).where(self._Users.username == username).values(password_hash=password_hash)
+        self.execute(change)

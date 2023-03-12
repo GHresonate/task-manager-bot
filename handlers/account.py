@@ -3,6 +3,7 @@ from utilits.redis_connector import RedisConnector
 from utilits.postgres_connector import PostgresConnector
 from utilits.message_text import translator
 from sqlalchemy.exc import IntegrityError
+from hashlib import sha256
 
 
 class Account:
@@ -43,10 +44,39 @@ class Account:
                              reply_markup=self.kb.get_account_kb())
 
     def change_password_start(self, message, bot):
-        pass
+        self.redis.set_acc_actions(message, "chose_password")
+        bot.send_message(message.chat.id, translator["change_password"][self.redis.get_lang(message)],
+                         reply_markup=self.kb.get_account_kb())
+
+    def change_password_first(self, message, bot):
+        password = message.text
+        bot.delete_message(message.chat.id, message.message_id)
+        if len(password) < 5 or password.isspace() or len(password) > 20:
+            bot.reply_to(message, translator['password_error'][self.redis.get_lang(message)])
+            return
+        self.redis.set_change_pass(message, sha256(password.encode()).hexdigest())
+        self.redis.set_acc_actions(message, "repeat_password")
+        bot.send_message(message.chat.id, translator["repeat_password"][self.redis.get_lang(message)],
+                         reply_markup=self.kb.get_account_kb())
 
     def change_password_result(self, message, bot):
-        pass
+        password = message.text
+        bot.delete_message(message.chat.id, message.message_id)
+        p_hash = self.redis.get_change_pass(message)
+        self.redis.del_change_pass(message)
+        self.redis.del_acc_actions(message)
+        if p_hash == sha256(password.encode()).hexdigest():
+            username = self.redis.get_username(message)
+            try:
+                self.postgres.change_password(username, p_hash)
+            except IntegrityError:
+                bot.send_message(message.chat.id, translator['change_error'][self.redis.get_lang(message)],
+                                 reply_markup=self.kb.get_account_kb())
+            self.redis.change_username(message, username)
+            return True
+        else:
+            bot.reply_to(message, translator['repeat_password_error'][self.redis.get_lang(message)])
+            return False
 
     def delete_account_start(self, message, bot):
         pass
