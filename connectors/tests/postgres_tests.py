@@ -1,6 +1,6 @@
 import unittest
 
-from utilits.postgres_connector import PostgresConnector
+from connectors.postgres_connector import PostgresConnector
 
 
 class PostgresTest(unittest.TestCase):

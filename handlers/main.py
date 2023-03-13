@@ -1,6 +1,6 @@
 from utilits.message_text import translator
 from utilits.keyboard_manager import KeyboardManager
-from utilits.redis_connector import RedisConnector
+from connectors.redis_connector import RedisConnector
 
 
 class Main:

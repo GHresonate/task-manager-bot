@@ -1,8 +1,7 @@
 from utilits.message_text import translator
 from utilits.keyboard_manager import KeyboardManager
-from utilits.redis_connector import RedisConnector
-from utilits.postgres_connector import PostgresConnector
-from sqlalchemy.exc import IntegrityError
+from connectors.redis_connector import RedisConnector
+from connectors.postgres_connector import PostgresConnector
 from hashlib import sha256
 
 
