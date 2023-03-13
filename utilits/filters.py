@@ -42,4 +42,13 @@ class Filter:
         # print(self._redis.get_acc_actions(message) == 'chose_name')
         return self._redis.get_acc_actions(message) == 'chose_name'
 
+    def change_password_start(self, message):
+        return message.text == 'Change password'
+
+    def change_password_first(self, message):
+        return self._redis.get_acc_actions(message) == 'chose_password'
+
+    def change_password_result(self, message):
+        return self._redis.get_acc_actions(message) == 'repeat_password'
+
 

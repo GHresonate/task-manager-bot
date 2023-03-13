@@ -55,6 +55,9 @@ translator = {
     'success_username_change': {
         'en': 'Username successfully changed'
     },
+    'success_password_change': {
+        'en': 'Password successfully changed'
+    },
     'user_incorrect': {
         'en': 'I don`t know this user. Check username and password, maybe login'
     },

@@ -84,4 +84,19 @@ def change_username_result(message):
     account_bot.change_username_result(message, bot)
 
 
+@bot.message_handler(func=message_filter.change_password_start)
+def change_password_start(message):
+    account_bot.change_password_start(message, bot)
+
+
+@bot.message_handler(func=message_filter.change_password_first)
+def change_password_first(message):
+    account_bot.change_password_first(message, bot)
+
+
+@bot.message_handler(func=message_filter.change_password_result)
+def change_password_result(message):
+    account_bot.change_password_result(message, bot)
+
+
 bot.infinity_polling()

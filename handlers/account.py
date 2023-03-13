@@ -40,7 +40,7 @@ class Account:
             bot.send_message(message.chat.id, translator['success_username_change'][self.redis.get_lang(message)],
                              reply_markup=self.kb.get_account_kb())
         except IntegrityError:
-            bot.send_message(message.chat.id, translator['registration_error'][self.redis.get_lang(message)],
+            bot.send_message(message.chat.id, translator['username_error'][self.redis.get_lang(message)],
                              reply_markup=self.kb.get_account_kb())
 
     def change_password_start(self, message, bot):
@@ -73,10 +73,11 @@ class Account:
                 bot.send_message(message.chat.id, translator['change_error'][self.redis.get_lang(message)],
                                  reply_markup=self.kb.get_account_kb())
             self.redis.change_username(message, username)
-            return True
+            bot.send_message(message.chat.id, translator['success_password_change'][self.redis.get_lang(message)],
+                             reply_markup=self.kb.get_account_kb())
         else:
-            bot.reply_to(message, translator['repeat_password_error'][self.redis.get_lang(message)])
-            return False
+            bot.reply_to(message, translator['repeat_password_error'][self.redis.get_lang(message)],
+                         reply_markup=self.kb.get_account_kb())
 
     def delete_account_start(self, message, bot):
         pass
