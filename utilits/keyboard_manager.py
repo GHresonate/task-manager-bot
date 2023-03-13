@@ -23,6 +23,17 @@ class KeyboardManager:
         return keyboard
 
     @staticmethod
+    def get_lang_kb_for_change():
+        eng_button = KeyboardButton('English')
+        ukr_button = KeyboardButton('Українська')
+        back_button = KeyboardButton('/Account')
+        keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)
+        keyboard.add(eng_button)
+        keyboard.add(ukr_button)
+        keyboard.add(back_button)
+        return keyboard
+
+    @staticmethod
     def get_main_kb():
         quit_button = KeyboardButton('/Quit')
         account_button = KeyboardButton('/Account')
@@ -38,6 +49,7 @@ class KeyboardManager:
         name_button = KeyboardButton('Change username')
         password_button = KeyboardButton('Change password')
         delete_button = KeyboardButton('Delete account')
+        change_lang = KeyboardButton('Change language')
         main = KeyboardButton('To main menu')
         keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)
         keyboard.add(name_button)

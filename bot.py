@@ -42,6 +42,11 @@ def log_start(message):
     log_bot.log_start(message, bot)
 
 
+@bot.message_handler(commands=['Quit'])
+def user_quit(message):
+    account_bot.user_quit(message, bot)
+
+
 @bot.message_handler(func=message_filter.enter_username)
 def enter_username(message):
     register_bot.enter_username(message, bot)
@@ -107,6 +112,16 @@ def delete_account_start(message):
 @bot.message_handler(func=message_filter.delete_password_result)
 def delete_account_result(message):
     account_bot.delete_account_result(message, bot)
+
+
+@bot.message_handler(func=message_filter.change_lang_start)
+def change_lang_start(message):
+    account_bot.change_lang_start(message, bot)
+
+
+@bot.message_handler(func=message_filter.change_lang_result)
+def change_lang_result(message):
+    account_bot.change_lang_result(message, bot)
 
 
 bot.infinity_polling()

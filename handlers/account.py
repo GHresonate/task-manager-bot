@@ -40,6 +40,7 @@ class Account:
             bot.send_message(message.chat.id, translator['success_username_change'][self._redis.get_lang(message)],
                              reply_markup=self._kb.get_account_kb())
         except IntegrityError:
+            self._redis.del_acc_actions(message)
             bot.send_message(message.chat.id, translator['username_error'][self._redis.get_lang(message)],
                              reply_markup=self._kb.get_account_kb())
 
@@ -92,3 +93,28 @@ class Account:
         self._redis.del_username(message)
         bot.send_message(message.chat.id, translator["account_deleted"][self._redis.get_lang(message)],
                          reply_markup=self._kb.get_start_kb())
+
+    def user_quit(self, message, bot):
+        self._redis.del_acc_actions(message)
+        self._redis.del_log(message)
+        self._redis.del_username(message)
+        bot.send_message(message.chat.id, translator["quit_done"][self._redis.get_lang(message)],
+                         reply_markup=self._kb.get_start_kb())
+
+    def change_lang_start(self, message, bot):
+        self._redis.set_acc_actions(message, "change_lang")
+        bot.send_message(message.chat.id, translator['chose_language']['en'],
+                         reply_markup=self._kb.get_lang_kb_for_change())
+
+    def change_lang_result(self, message, bot):
+        if message.text == 'Українська':
+            self._redis.set_lang(message, 'uk')
+        elif message.text == 'English':
+            self._redis.set_lang(message, 'en')
+        else:
+            bot.send_message(message.chat.id, translator['language_error']['en'],
+                             reply_markup=self._kb.get_lang_kb_for_change())
+            return
+        self._redis.del_acc_actions(message)
+        bot.send_message(message.chat.id, translator['username_changed'][
+            self._redis.get_lang(message)], reply_markup=self._kb.get_account_kb())

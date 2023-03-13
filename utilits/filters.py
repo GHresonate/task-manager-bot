@@ -6,19 +6,19 @@ class Filter:
         self._redis = RedisConnector()
 
     def chose_language(self, message):
-       # print(self._redis.get_lang(message) == 'choosing')
+        # print(self._redis.get_lang(message) == 'choosing')
         return self._redis.get_lang(message) == 'choosing'
 
     def enter_username(self, message):
-        #print(self._redis.get_status(message) == 'wait_for_username')
+        # print(self._redis.get_status(message) == 'wait_for_username')
         return self._redis.get_status(message) == 'wait_for_username'
 
     def enter_password(self, message):
-        #print(self._redis.get_status(message) == 'wait_for_password')
+        # print(self._redis.get_status(message) == 'wait_for_password')
         return self._redis.get_status(message) == 'wait_for_password'
 
     def repeat_password(self, message):
-        #print(self._redis.get_status(message) == 'repeat_password')
+        # print(self._redis.get_status(message) == 'repeat_password')
         return self._redis.get_status(message) == 'repeat_password'
 
     def log_username(self, message):
@@ -42,6 +42,12 @@ class Filter:
         # print(self._redis.get_acc_actions(message) == 'chose_name')
         return self._redis.get_acc_actions(message) == 'chose_name'
 
+    def change_lang_start(self, message):
+        return message.text == 'Change language'
+
+    def change_lang_result(self, message):
+        return self._redis.get_acc_actions(message) == 'change_lang'
+
     def change_password_start(self, message):
         return message.text == 'Change password'
 
@@ -56,4 +62,3 @@ class Filter:
 
     def delete_password_result(self, message):
         return self._redis.get_acc_actions(message) == 'del_account' and message.text == 'Yes'
-

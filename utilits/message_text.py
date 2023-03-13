@@ -77,4 +77,10 @@ translator = {
     'change_name': {
         'en': 'Your current name is {}. Print new name, if you wanna change it, or chose another option on keyboard'
     },
+    'quit_done': {
+        'en': 'You are logged out'
+    },
+    'username_changed': {
+        'en': 'Your username has been changed successfully'
+    },
 }
