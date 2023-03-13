@@ -41,6 +41,9 @@ class RedisConnector:
     def del_status(self, message):
         self._redis_connector.hdel(f'user_{message.from_user.id}', "status")
 
+    def del_username(self, message):
+        self._redis_connector.hdel(f'user_{message.from_user.id}', "username")
+
     def set_reg_data(self, message, key, value):
         self._redis_connector.hset(f'registration_{message.from_user.id}', key, value)
 

@@ -51,4 +51,9 @@ class Filter:
     def change_password_result(self, message):
         return self._redis.get_acc_actions(message) == 'repeat_password'
 
+    def delete_password_start(self, message):
+        return message.text == 'Delete account'
+
+    def delete_password_result(self, message):
+        return self._redis.get_acc_actions(message) == 'del_account' and message.text == 'Yes'
 

@@ -99,4 +99,14 @@ def change_password_result(message):
     account_bot.change_password_result(message, bot)
 
 
+@bot.message_handler(func=message_filter.delete_password_start)
+def delete_account_start(message):
+    account_bot.delete_account_start(message, bot)
+
+
+@bot.message_handler(func=message_filter.delete_password_result)
+def delete_account_result(message):
+    account_bot.delete_account_result(message, bot)
+
+
 bot.infinity_polling()

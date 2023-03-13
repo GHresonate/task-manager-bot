@@ -67,6 +67,13 @@ translator = {
     'change_error': {
         'en': 'Something went wrong, please try again'
     },
+    'account_deleted': {
+        'en': 'Account successfully deleted.'
+    },
+    'del_account': {
+        'en': 'Are you sure you wanna to delete your account? This action delete your account and all tasks, '
+              'and can`t be undone. Enter yes, if you are sure, or chose another options.'
+    },
     'change_name': {
         'en': 'Your current name is {}. Print new name, if you wanna change it, or chose another option on keyboard'
     },

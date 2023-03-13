@@ -80,7 +80,15 @@ class Account:
                          reply_markup=self.kb.get_account_kb())
 
     def delete_account_start(self, message, bot):
-        pass
+        self.redis.set_acc_actions(message, "del_account")
+        bot.send_message(message.chat.id, translator["del_account"][self.redis.get_lang(message)],
+                         reply_markup=self.kb.get_account_kb())
 
     def delete_account_result(self, message, bot):
-        pass
+        username = self.redis.get_username(message)
+        self.postgres.delete_user(username)
+        self.redis.del_acc_actions(message)
+        self.redis.del_log(message)
+        self.redis.del_username(message)
+        bot.send_message(message.chat.id, translator["account_deleted"][self.redis.get_lang(message)],
+                         reply_markup=self.kb.get_start_kb())
