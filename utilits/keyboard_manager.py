@@ -50,9 +50,11 @@ class KeyboardManager:
         password_button = KeyboardButton('Change password')
         delete_button = KeyboardButton('Delete account')
         change_lang = KeyboardButton('Change language')
-        main = KeyboardButton('To main menu')
+        main = KeyboardButton('/Main')
         keyboard = ReplyKeyboardMarkup(one_time_keyboard=True)
         keyboard.add(name_button)
         keyboard.add(password_button)
         keyboard.add(delete_button)
+        keyboard.add(change_lang)
+        keyboard.add(main)
         return keyboard

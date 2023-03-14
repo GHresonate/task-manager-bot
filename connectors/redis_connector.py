@@ -10,7 +10,8 @@ class RedisConnector:
 
     def get_lang(self, message):
         try:
-            return self._redis_connector.hget(f'user_{message.from_user.id}', "lang").decode()
+            lang = self._redis_connector.hget(f'user_{message.from_user.id}', "lang").decode()
+            return lang or 'en'
         except AttributeError:
             return None
 
@@ -33,6 +34,7 @@ class RedisConnector:
             return None
 
     def get_status(self, message):
+        print(self._redis_connector.hget(f'user_{message.from_user.id}', "status"))
         try:
             return self._redis_connector.hget(f'user_{message.from_user.id}', "status").decode()
         except AttributeError:

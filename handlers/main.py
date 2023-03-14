@@ -17,13 +17,15 @@ class Main:
             bot.send_message(message.chat.id, translator['welcome_message'][
                 self._redis.get_lang(message)], reply_markup=self._kb.get_main_kb())
         else:
-            self._redis.del_status(message)
             self.get_main_menu(message, bot)
 
     def get_main_menu(self, message, bot):
         bot.send_message(message.chat.id, translator['welcome_for_register'][self._redis.get_lang(message)],
                          reply_markup=self._kb.get_main_kb())
 
+    def filter_anonim(self, message, bot):
+        bot.send_message(message.chat.id, translator['unknown_user'][self._redis.get_lang(message)],
+                         reply_markup=self._kb.get_start_kb())
     def info(self, message, bot):
         bot.send_message(message.chat.id, translator['info'][self._redis.get_lang(message)],
                          reply_markup=self._kb.get_start_kb())

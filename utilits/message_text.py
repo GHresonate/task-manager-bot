@@ -83,4 +83,10 @@ translator = {
     'username_changed': {
         'en': 'Your username has been changed successfully'
     },
+    'lang_changed': {
+        'en': 'Your language has been changed successfully'
+    },
+    'unknown_user': {
+        'en': 'I don`t know you( Pleas login or register, before continue work with this bot'
+    },
 }

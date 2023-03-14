@@ -98,6 +98,7 @@ class Account:
         self._redis.del_acc_actions(message)
         self._redis.del_log(message)
         self._redis.del_username(message)
+        self._redis.del_status(message)
         bot.send_message(message.chat.id, translator["quit_done"][self._redis.get_lang(message)],
                          reply_markup=self._kb.get_start_kb())
 
@@ -116,5 +117,5 @@ class Account:
                              reply_markup=self._kb.get_lang_kb_for_change())
             return
         self._redis.del_acc_actions(message)
-        bot.send_message(message.chat.id, translator['username_changed'][
+        bot.send_message(message.chat.id, translator['lang_changed'][
             self._redis.get_lang(message)], reply_markup=self._kb.get_account_kb())

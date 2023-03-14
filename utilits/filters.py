@@ -62,3 +62,6 @@ class Filter:
 
     def delete_password_result(self, message):
         return self._redis.get_acc_actions(message) == 'del_account' and message.text == 'Yes'
+
+    def filter_anonim(self, message):
+        return self._redis.get_status(message) != 'logged'

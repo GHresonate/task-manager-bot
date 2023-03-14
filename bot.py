@@ -22,6 +22,11 @@ def start(message):
     main_bot.start(message, bot)
 
 
+@bot.message_handler(commands=['Info'])
+def info(message):
+    main_bot.info(message, bot)
+
+
 @bot.message_handler(func=message_filter.chose_language)
 def chose_language(message):
     register_bot.chose_language(message, bot)
@@ -32,19 +37,9 @@ def reg_start(message):
     register_bot.reg_start(message, bot)
 
 
-@bot.message_handler(commands=['Info'])
-def info(message):
-    main_bot.info(message, bot)
-
-
 @bot.message_handler(commands=['Login'])
 def log_start(message):
     log_bot.log_start(message, bot)
-
-
-@bot.message_handler(commands=['Quit'])
-def user_quit(message):
-    account_bot.user_quit(message, bot)
 
 
 @bot.message_handler(func=message_filter.enter_username)
@@ -71,6 +66,21 @@ def log_username(message):
 @bot.message_handler(func=message_filter.log_password)
 def log_password(message):
     log_bot.get_password(message, bot)
+    main_bot.start(message, bot)
+
+
+@bot.message_handler(func=message_filter.filter_anonim)
+def filter_anonim(message):
+    main_bot.filter_anonim(message, bot)
+
+
+@bot.message_handler(commands=['Quit'])
+def user_quit(message):
+    account_bot.user_quit(message, bot)
+
+
+@bot.message_handler(commands=['Main'])
+def start(message):
     main_bot.start(message, bot)
 
 
