@@ -6,7 +6,6 @@ from handlers.account import Account
 from utilits.filters import Filter
 import os
 
-
 BOT_TOKEN = os.environ['BOT_TOKEN']
 bot = telebot.TeleBot(BOT_TOKEN)
 
@@ -132,6 +131,10 @@ def change_lang_start(message):
 @bot.message_handler(func=message_filter.change_lang_result)
 def change_lang_result(message):
     account_bot.change_lang_result(message, bot)
+
+@bot.message_handler(func=message_filter.handle_everything)
+def change_lang_result(message):
+    main_bot.unknown_message(message, bot)
 
 
 bot.infinity_polling()

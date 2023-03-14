@@ -65,3 +65,6 @@ class Filter:
 
     def filter_anonim(self, message):
         return self._redis.get_status(message) != 'logged'
+
+    def handle_everything(self, message):
+        return True

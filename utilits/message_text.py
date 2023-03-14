@@ -86,6 +86,10 @@ translator = {
     'lang_changed': {
         'en': 'Your language has been changed successfully'
     },
+    'unknown_message': {
+        'en': 'Sorry, I don`t know this command. May be you tried to do something, but it was too lang ago, or you used'
+              ' wrong command'
+    },
     'unknown_user': {
         'en': 'I don`t know you( Pleas login or register, before continue work with this bot'
     },

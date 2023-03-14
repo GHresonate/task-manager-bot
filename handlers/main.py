@@ -26,6 +26,10 @@ class Main:
     def filter_anonim(self, message, bot):
         bot.send_message(message.chat.id, translator['unknown_user'][self._redis.get_lang(message)],
                          reply_markup=self._kb.get_start_kb())
+
     def info(self, message, bot):
         bot.send_message(message.chat.id, translator['info'][self._redis.get_lang(message)],
                          reply_markup=self._kb.get_start_kb())
+
+    def unknown_message(self, message, bot):
+        bot.reply_to(message, translator['unknown_message'][self._redis.get_lang(message)])

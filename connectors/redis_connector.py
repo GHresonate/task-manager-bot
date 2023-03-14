@@ -34,7 +34,6 @@ class RedisConnector:
             return None
 
     def get_status(self, message):
-        print(self._redis_connector.hget(f'user_{message.from_user.id}', "status"))
         try:
             return self._redis_connector.hget(f'user_{message.from_user.id}', "status").decode()
         except AttributeError:
