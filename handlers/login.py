@@ -1,16 +1,9 @@
 from utilits.message_text import translator
-from utilits.keyboard_manager import KeyboardManager
-from connectors.redis_connector import RedisConnector
-from connectors.postgres_connector import PostgresConnector
 from hashlib import sha256
+from handlers.base_handler import BaseHandler
 
 
-class Login:
-    def __init__(self):
-        self._kb = KeyboardManager()
-        self._redis = RedisConnector()
-        self._postgres = PostgresConnector()
-
+class Login(BaseHandler):
     def log_start(self, message, bot):
         if self._redis.get_status(message) == 'logged':
             bot.reply_to(message, translator['already_logged_error'][

@@ -1,13 +1,8 @@
 from utilits.message_text import translator
-from utilits.keyboard_manager import KeyboardManager
-from connectors.redis_connector import RedisConnector
+from handlers.base_handler import BaseHandler
 
 
-class Main:
-    def __init__(self):
-        self._kb = KeyboardManager()
-        self._redis = RedisConnector()
-
+class Main(BaseHandler):
     def start(self, message, bot):
         if not self._redis.get_lang(message) or self._redis.get_lang(message) == 'choosing':
             self._redis.set_lang(message, 'choosing')

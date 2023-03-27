@@ -1,17 +1,10 @@
 from utilits.message_text import translator
-from utilits.keyboard_manager import KeyboardManager
-from connectors.redis_connector import RedisConnector
-from connectors.postgres_connector import PostgresConnector
 from sqlalchemy.exc import IntegrityError
 from hashlib import sha256
+from handlers.base_handler import BaseHandler
 
 
-class Registration:
-    def __init__(self):
-        self._kb = KeyboardManager()
-        self._redis = RedisConnector()
-        self._postgres = PostgresConnector()
-
+class Registration(BaseHandler):
     def chose_language(self, message, bot):
         if message.text == 'Українська':
             self._redis.set_lang(message, 'uk')
