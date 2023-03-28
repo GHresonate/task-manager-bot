@@ -12,12 +12,42 @@ class PostgresConnector:
         class Users(self._Base):
             __table__ = Table('Users', self._Base.metadata, autoload_with=self._engine)
 
+        class Tasks(self._Base):
+            __table__ = Table("Tasks", self._Base.metadata, autoload_with=self._engine)
+
+        self._Tasks = Tasks
         self._Users = Users
 
     def execute(self, sql):
         result = self._session.execute(sql)
         self._session.commit()
         return result
+
+    def insert_task(self, username, title, description):
+        state = 'n'
+        ins = insert(self._Tasks).values(username=username, title=title, description=description, state=state)
+        self.execute(ins)
+
+    def update_task_state(self, task_id, state):
+        change = update(self._Tasks).where(self._Tasks.task_id == task_id).values(state=state)
+        self.execute(change)
+
+    def delete_task(self, task_id):
+        del_sql = delete(self._Users).where(self._Tasks.task_id == task_id)
+        self.execute(del_sql)
+
+    def get_users_tasks(self, username):
+        sel = select(self._Tasks.task_id, self._Tasks.title, self._Tasks.description, self._Tasks.state). \
+            where(self._Tasks.username == username)
+        result = self.execute(sel)
+        return result.all()
+
+    def delete_users_tasks(self, username):
+        del_sql = delete(self._Tasks).where(self._Tasks.username == username)
+        self.execute(del_sql)
+
+
+    # here user part starts
 
     def insert_user(self, username, password_hash):
         ins = insert(self._Users).values(username=username, password_hash=password_hash)

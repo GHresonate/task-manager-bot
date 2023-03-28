@@ -14,6 +14,12 @@ class TasksCRUD(BaseHandler):
     def change_task(self, message, bot):
         pass
 
+    def update_state(self, message, bot):
+        pass
+
+    def get_users_tasks(self, message, bot):
+        pass
+
     def get_task(self, message, bot):
         pass
 
