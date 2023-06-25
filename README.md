@@ -1,7 +1,5 @@
 # task-manager-bot
-```
-In progress
-```
+> In progress
 It will be a Telegram bot that can help with task management. For now only registration and account management are finished, and I started the part with the task management.
 ## What`s the plan?
 *1) Create docker and docker-compose files:* it can make deployment easier, if I start to work with containers in the middle, then in the end of development, also this can help with debugging and development;
